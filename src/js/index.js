@@ -55,6 +55,7 @@ elements.searchForm.addEventListener('submit', e => {
     controlSearch();
 });
 
+// event delegation --> closest method
 elements.searchResPages.addEventListener('click', e => {
     const btn = e.target.closest('.btn-inline');
     if (btn) {
@@ -104,3 +105,20 @@ elements.searchResPages.addEventListener('click', e => {
 
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
+// Handling recipe button clicks --> event delegation
+elements.recipe.addEventListener('click', e => {    
+    if (e.target.matches('.btn-decrease, .btn-decrease *')) { //button decrease or any child element of button decrease
+        // Decrease button is clicked
+        if (state.recipe.servings > 1) {
+            state.recipe.updateServings('dec');
+            recipeView.updateServingsIngredients(state.recipe);
+        };
+        
+    } else if (e.target.matches('.btn-increase, .btn-increase *')) { /* '*' (asterisk) means any child of .btn-increase */
+        // Increase button is clicked
+        state.recipe.updateServings('inc');
+        recipeView.updateServingsIngredients(state.recipe);
+    };
+    console.log(state.recipe);
+
+});

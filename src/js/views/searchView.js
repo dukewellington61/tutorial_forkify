@@ -12,7 +12,16 @@ export const clearResults = () => {
 };
 
 export const highlightSelected = id => {
-    document.querySelector(`a[href="#${id}"]`).classList.add('.results__link--active');
+    // line of code below works even though it shouldn't
+    // document.querySelector(`a[href="#${id}"]`).classList.add('.results__link--active');
+
+    // the following block could be commented out because the line above does the same (even though it shouldn't)
+    const resultsArr = Array.from(document.querySelectorAll('.results__link'));
+    resultsArr.forEach(el => {
+        el.classList.remove('results__link--active');
+    });
+
+    document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active');
 };
 
 const limitRecipeTitle = (title, limit =17) => {
