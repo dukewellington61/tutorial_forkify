@@ -1,8 +1,10 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
+import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import { elements, renderLoader, clearLoader } from './views/base';
+
 
 /**Global state of the app
  * - Search object
@@ -63,7 +65,7 @@ elements.searchResPages.addEventListener('click', e => {
         searchView.clearResults();   
         searchView.renderResults(state.search.result, goToPage)    
     };
-})
+});
 
 
 /**
@@ -107,14 +109,14 @@ elements.searchResPages.addEventListener('click', e => {
 
 // Handling recipe button clicks --> event delegation
 elements.recipe.addEventListener('click', e => {    
-    if (e.target.matches('.btn-decrease, .btn-decrease *')) { //button decrease or any child element of button decrease
+    if (e.target.matches('.btn-decrease, .btn-decrease *')) { /* '*' (asterisk) means any child of .btn-decrease */
         // Decrease button is clicked
         if (state.recipe.servings > 1) {
             state.recipe.updateServings('dec');
             recipeView.updateServingsIngredients(state.recipe);
         };
         
-    } else if (e.target.matches('.btn-increase, .btn-increase *')) { /* '*' (asterisk) means any child of .btn-increase */
+    } else if (e.target.matches('.btn-increase, .btn-increase *')) { 
         // Increase button is clicked
         state.recipe.updateServings('inc');
         recipeView.updateServingsIngredients(state.recipe);
