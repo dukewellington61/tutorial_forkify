@@ -3,6 +3,7 @@ import Recipe from './models/Recipe';
 import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
 import { elements, renderLoader, clearLoader } from './views/base';
 
 
@@ -45,12 +46,9 @@ const controlSearch = async () => {
         } catch (err) {
             // console.log(err);
             clearLoader();
-        }
-
-       
-    }
-
-}
+        };       
+    };
+};
 
 elements.searchForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -72,7 +70,7 @@ elements.searchResPages.addEventListener('click', e => {
  * RECIPE CONTROLLER * 
  */
 
- const controlRecipe = async () => {
+const controlRecipe = async () => {
      // Get ID from url
     const id = window.location.hash.replace('#','');
     // console.log(id);
@@ -103,9 +101,47 @@ elements.searchResPages.addEventListener('click', e => {
             console.log(err);
         };        
     };
- };
+};
 
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+/**
+ * LIST CONTROLLER
+ * 
+ */
+
+const controlList = () => {
+    // Create a new list of no list exists
+    if (!state.list) {
+        
+        state.list = new List();
+
+        // Add each ingredient to the list and UI
+        state.recipe.ingredients.forEach(el => {
+            const item = state.list.addItem(el.count, el.unit, el.ingredient);
+            listView.renderItem(item);
+        });
+    };
+};
+
+// Handle delete and update list item events
+elements.shoppingList.addEventListener('click', e => {
+    const id = e.target.closest('.shopping__item').dataset.itemid; // dataset accesses value of custom data attributes, that had been set to dom elements
+
+    // Handle the delete button
+    if (e.target.matches('.shopping__delete, .shopping__delete *')) {          
+        // Delete from state (model)
+        state.list.deleteItem(id); 
+
+        // Delete from view
+        listView.deleteItem(id);    
+
+    // Handle count update in the model
+    } else if (e.target.matches('.shopping__count-value')) {
+        const val = parseFloat(e.target.value);
+        state.list.updateCount(id, val);
+    };      
+});   
 
 // Handling recipe button clicks --> event delegation
 elements.recipe.addEventListener('click', e => {    
@@ -120,7 +156,8 @@ elements.recipe.addEventListener('click', e => {
         // Increase button is clicked
         state.recipe.updateServings('inc');
         recipeView.updateServingsIngredients(state.recipe);
-    };
-    console.log(state.recipe);
 
+    } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
+        controlList();
+    };
 });

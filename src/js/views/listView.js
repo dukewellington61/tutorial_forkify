@@ -4,7 +4,7 @@ export const renderItem = item => {
     const markup = `
         <li class="shopping__item" data-itemid=${item.id}> 
             <div class="shopping__count">
-                <input type="number" value="${item.count}" step="${item.count}" class="shopping__count-value">
+                <input type="number" value="${item.count}" step="${item.count}" min="0" class="shopping__count-value">
                 <p>${item.unit}</p>
             </div>
             <p class="shopping__description">${item.ingredient}</p>
@@ -19,7 +19,7 @@ export const renderItem = item => {
 };
 
 // css attribute selector: [data-itemid="${id}"] had been added to markup so item can be selected and removed
-export const deleteItem = id => {
+export const deleteItem = id => {    
     const item = document.querySelector(`[data-itemid="${id}"]`);
     item.parentElement.removeChild(item);
 };

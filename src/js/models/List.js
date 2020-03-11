@@ -5,7 +5,7 @@ export default class List {
         this.items = [];
     };
 
-    additem(count, unit, ingredient) {
+    addItem(count, unit, ingredient) {
         const item = {
             id: uniqid(),
             count,
@@ -13,6 +13,7 @@ export default class List {
             ingredient
         };
         this.items.push(item);
+        return item;
     };
 
 
@@ -23,9 +24,10 @@ export default class List {
         this.items.splice(index, 1);
     };
 
-
-    // sets count property of object (which is found by it's id property) in items array to newCount
+    // sets count property of object (which is found by its id property) in items array to newCount
     updateCount(id, newCount) {
+        console.log(id);
+        console.log(this.items.find(el => el.id === id));
         this.items.find(el => el.id === id).count = newCount;
     };
 };
