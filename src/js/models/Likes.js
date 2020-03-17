@@ -3,8 +3,7 @@ export default class Likes {
         this.likes = [];
     };
 
-    addLike(id, title, author, img) {
-        
+    addLike(id, title, author, img) {        
         const like = {id, title, author, img};
         this.likes.push(like);
         return like;
@@ -17,7 +16,6 @@ export default class Likes {
 
     isLiked(id) {
         // returns true if recipe is liked i.e. is in the likes array or otherwise false
-        console.log(this.likes.findIndex(el => el.id === id) !== -1);
         return this.likes.findIndex(el => el.id === id) !== -1;
     };
 
