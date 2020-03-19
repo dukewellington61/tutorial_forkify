@@ -105,8 +105,6 @@ const controlRecipe = async () => {
     };
 };
 
-state.likes = new Likes(); 
-
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
 /**
@@ -151,7 +149,6 @@ elements.shoppingList.addEventListener('click', e => {
  * LIKE CONTROLLER
  * 
  */
-// TESTING
 
  const controlLike = () => {    
     if (!state.likes) {
@@ -170,7 +167,7 @@ elements.shoppingList.addEventListener('click', e => {
         likesView.toggleLikeBtn(true);
         
         // Add like to the UI
-        likesView.renderView(newLike);        
+        likesView.renderLike(newLike);        
         
     // Recipe has been liked yet
     } else {
@@ -186,6 +183,20 @@ elements.shoppingList.addEventListener('click', e => {
     };  
     likesView.toggleLikeMenu(state.likes.getNumLikes());
  };
+
+ // Restore liked recipes on page load
+ window.addEventListener('load', () => {
+    state.likes = new Likes(); 
+
+    // Restore likes
+    state.likes.readStorage();
+
+    // Toggle like menu button
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+    // Render the existing likes
+    state.likes.likes.forEach(like => likesView.renderLike(like));
+ });
 
 // Handling recipe button clicks --> event delegation
 elements.recipe.addEventListener('click', e => {    

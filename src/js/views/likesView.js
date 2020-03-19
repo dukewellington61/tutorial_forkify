@@ -10,7 +10,7 @@ export const toggleLikeMenu = numLikes => {
     elements.likesMenu.style.visibility = numLikes > 0 ? 'visible' : 'hidden';
 };
 
-export const renderView = like => {
+export const renderLike = like => {
     const markup = `
         <li>
             <a class="likes__link" href="#${like.id}">
